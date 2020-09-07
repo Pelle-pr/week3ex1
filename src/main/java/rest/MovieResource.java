@@ -29,15 +29,16 @@ public class MovieResource {
     
     private static final MovieFacade FACADE =  MovieFacade.getFacadeExample(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-            
+    
+    
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String demo() {
             String[] actors1 = {"John", "Benny", "Carl"};
      String[] actors2 = {"Lonny", "Hanne", "Jørgen"};
-  
-     EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
      
+     EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
+    
      EntityManager em = EMF.createEntityManager();
      
      em.getTransaction().begin();
@@ -87,6 +88,17 @@ public class MovieResource {
         
         return GSON.toJson(m);
         
+    }
+    
+    @Path("/title/{title}")
+    @GET
+    @Produces (MediaType.APPLICATION_JSON)
+    public String getMovieByTitle(@PathParam("title") String title){
+        
+        Movie movie = FACADE.getMovieByTitle(title);
+       
+        
+        return GSON.toJson(movie);
     }
     
 }

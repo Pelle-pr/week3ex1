@@ -4,6 +4,7 @@ import entities.Movie;
 import utils.EMF_Creator;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
+import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
 import java.net.URI;
 import javax.persistence.EntityManager;
@@ -14,6 +15,8 @@ import org.glassfish.grizzly.http.util.HttpStatus;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,8 +69,7 @@ public class MovieResourceTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
-        em.persist(new Movie(2013,"BraveHeart", actors1));
-        em.persist(new Movie(1999, "Vil med John", actors2));
+      
         try {
             em.getTransaction().begin();
             em.createNamedQuery("Movie.deleteAllRows").executeUpdate();
@@ -79,30 +81,66 @@ public class MovieResourceTest {
         }
     }
     
-//    @Test
-//    public void testServerIsUp() {
-//        System.out.println("Testing is server UP");
-//        given().when().get("/movie").then().statusCode(200);
-//    }
+    @Test
+    public void testServerIsUp() {
+        System.out.println("Testing is server UP");
+        given().when().get("/movie").then().statusCode(200);
+    }
    
-    //This test assumes the database contains two rows
-//    @Test
-//    public void testDummyMsg() throws Exception {
-//        given()
-//        .contentType("application/json")
-//        .get("/xxx/").then()
-//        .assertThat()
-//        .statusCode(HttpStatus.OK_200.getStatusCode())
-//        .body("msg", equalTo("Hello World"));   
-//    }
     
-//    @Test
-//       public void testCount() throws Exception {
-//        given()
-//        .contentType("application/json")
-//        .get("/xxx/count").then()
-//        .assertThat()
-//        .statusCode(HttpStatus.OK_200.getStatusCode())
-//        .body("count", equalTo(2));   
-//    }
+    @Test
+    public void testDummyMsg() throws Exception {
+        given()
+        .contentType("application/json")
+        .get("/movie/").then()
+        .assertThat()
+        .statusCode(HttpStatus.OK_200.getStatusCode())
+        .body("msg", equalTo("Hello World"));   
+    }
+    
+    @Test
+       public void testCount() throws Exception {
+        given()
+        .contentType("application/json")
+        .get("/movie/count").then()
+        .assertThat()
+        .statusCode(HttpStatus.OK_200.getStatusCode())
+        .body("count", equalTo(2));   
+    }
+       
+       @Test
+       public void testMovieByID() throws Exception {
+           
+           Long id = mov1.getId();
+           given()
+                   .contentType(ContentType.JSON)
+                   .get("/movie/{id}",id).then()
+                   .assertThat().statusCode(HttpStatus.OK_200.getStatusCode())
+                   .body("title", equalTo(mov1.getTitle()));
+       }
+       
+       @Test
+       public void testMovieByTitle() throws Exception {
+           given()
+                   .contentType(ContentType.JSON)
+                   .get("/movie/title/BraveHeart").then()
+                   .assertThat()
+                   .statusCode(200)
+                   .body("id[0]", equalTo(mov1.getId().intValue()));
+       }
+       @Test
+       public void testAllMovies ()throws Exception {
+           
+           given()
+                   .contentType(ContentType.JSON)
+                   .get("/movie/allmovies").then()
+                   .assertThat()
+                   .statusCode(200)
+                   .body("size()", is(2))
+                   .and()
+                   .body("title", hasItems("BraveHeart", "Vil med John"));
+              
+                   
+       }
+       
 }

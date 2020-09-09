@@ -10,6 +10,7 @@ import javax.persistence.NamedQuery;
 
 @Entity
 @NamedQuery(name = "Movie.deleteAllRows", query = "DELETE from Movie")
+
 public class Movie implements Serializable {
 
     private static final long serialVersionUID = 1L;

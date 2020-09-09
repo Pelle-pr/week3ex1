@@ -34,23 +34,7 @@ public class MovieResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String demo() {
-            String[] actors1 = {"John", "Benny", "Carl"};
-     String[] actors2 = {"Lonny", "Hanne", "Jørgen"};
-     
-     EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
-    
-     EntityManager em = EMF.createEntityManager();
-     
-     em.getTransaction().begin();
-     
-     em.persist(new Movie(2010, "John alene i verden",actors1));
-     em.persist(new Movie(1999, "Lenny er sej", actors2));
-     em.persist(new Movie(1945, "Rose", actors2));
-     em.persist(new Movie(1955, "Johnny", actors2));
-     em.persist(new Movie(2011, "Skraldemanden", actors2));
-     
-     em.getTransaction().commit();
-     em.close();
+      
     
         return "{\"msg\":\"Hello World\"}";
     }
@@ -75,6 +59,9 @@ public class MovieResource {
             dtolist.add(new DTOmovie(movie));
             
         }
+        if(movielist == null){
+            return "Ingen film i Databasen";
+        }
         
         return GSON.toJson(dtolist);
     }
@@ -83,9 +70,8 @@ public class MovieResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String getMovieByID(@PathParam("id") Long id ){
         
-      
-        DTOmovie m = new DTOmovie(FACADE.getMovieById(id));
         
+        DTOmovie m = new DTOmovie(FACADE.getMovieById(id));
         return GSON.toJson(m);
         
     }
@@ -95,7 +81,7 @@ public class MovieResource {
     @Produces (MediaType.APPLICATION_JSON)
     public String getMovieByTitle(@PathParam("title") String title){
         
-        Movie movie = FACADE.getMovieByTitle(title);
+        List<Movie> movie = FACADE.getMovieByTitle(title);
        
         
         return GSON.toJson(movie);

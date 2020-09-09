@@ -89,14 +89,26 @@ public class MovieFacade {
         em.close();
     }}
 
-    public Movie getMovieByTitle(String title) {
+    public List<Movie> getMovieByTitle(String title) {
         
         EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("SELECT m FROM Movie m WHERE m.title = :title");
+        Query q = em.createQuery("SELECT m FROM Movie m WHERE m.title LIKE CONCAT('%',:title,'%')");
         q.setParameter("title", title);
-        Movie m = (Movie) q.getSingleResult();
+        List<Movie> m = q.getResultList();
         return m;
         
+    }
+    
+    public void deleteAllMovies(){
+        EntityManager em = emf.createEntityManager();
+        
+        try{
+            em.getTransaction().begin();
+            em.createNamedQuery("Movie.deleteAllRows").executeUpdate();
+            em.getTransaction().commit();
+        }finally {
+            em.close();
+        }
     }
 
 }

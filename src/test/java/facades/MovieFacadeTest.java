@@ -104,8 +104,8 @@ public class MovieFacadeTest {
     public void testGetMovieByTitle(){
         
         String title = movie1.getTitle();
-        
-        assertEquals(title, facade.getMovieByTitle(title).getTitle());
+        List<Movie> mlist = facade.getMovieByTitle(title);
+        assertEquals(title, mlist.get(0).getTitle());
         
     }
 

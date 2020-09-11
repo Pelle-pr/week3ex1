@@ -6,6 +6,7 @@ import dto.DTOmovie;
 import entities.Movie;
 import utils.EMF_Creator;
 import facades.MovieFacade;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -35,7 +36,17 @@ public class MovieResource {
     @Produces({MediaType.APPLICATION_JSON})
     public String demo() {
       
-    
+         EntityManager em = EMF.createEntityManager();
+         
+        try {
+            em.getTransaction().begin();
+            em.persist(new Movie(1986, "Topgun", new String[]{"Tom Cruise", "Val Kilmer","Kelly McGills"}));
+            em.persist(new Movie(2003, "Kill Bill", new String[]{"Uma Thurman", "Daryl Hannah"}));
+            em.persist(new Movie(1991, "Point Break", new String[]{"Patrick Swayze", "Keanu Reeves"}));
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
         return "{\"msg\":\"Hello World\"}";
     }
     @Path("count")

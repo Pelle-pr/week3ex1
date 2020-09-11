@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div id="1">
+      
+        </div>
+        
+           <form>
+            <input type="text" id="name">
+            <input type="submit" onclick="addName()" value="add Name">
+            <input type="submit" onclick="removeFirst()" value="Remove First">
+            <input type="submit" onclick="removeLast()" value="Remove Last">
+        </form>
+
+           
+    </body>
+    
+    <script>
+        
+        let div = document.getElementById("1");
+        let names = ["Lars", "Peter", "Jan", "Ian"];
+        
+        function htmlliste (array){
+            let res = "<ul>";
+            let tagging = array.map(name => "<li>" + name + "</li>");
+            res += tagging.join("");
+            res += "</ul>";
+            return res;
+            
+        }
+        div.innerHTML = htmlliste(names);
+      
+        function addName (){
+            event.preventDefault();
+            var input = document.getElementById("name");
+            names.push(input.value);
+            div.innerHTML = htmlliste(names);
+            
+            
+        }
+        function removeFirst (){
+            event.preventDefault();
+            names.shift();
+            div.innerHTML = htmlliste(names);
+            
+        }
+         function removeLast (){
+            event.preventDefault();
+            names.pop();
+            div.innerHTML = htmlliste(names);
+            
+        }
+    
+        </script>
+</html>

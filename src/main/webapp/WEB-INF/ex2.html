@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <style>
+        .mydiv {width: 25px; height: 25px;background-color:yellow; margin:1px;}
+
+    </style>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div id="outer">
+        <div id="1" class="mydiv">1</div>
+        <div id ="2" class="mydiv">2</div>
+        <div id="4" class="mydiv">3</div>
+        <div id ="5" class="mydiv">4</div>
+        <div id="6" class="mydiv">5</div>
+        <div id ="7" class="mydiv">6</div>
+        <div id="8" class="mydiv">7</div>
+        <div id ="9" class="mydiv">8</div>
+        <div id="10" class="mydiv">9</div>
+        <div id ="11" class="mydiv">10</div>
+        <div id="12" class="mydiv">11</div>
+        <div id ="13" class="mydiv">12</div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        <div id="3" class="mydiv"></div>
+    </body>
+    
+    <script>
+        document.getElementById("outer").addEventListener("click", hejfra);
+        
+        
+        document.getElementById("1").addEventListener("click", hejfradiv1);
+        document.getElementById("2").addEventListener("click", hejfradiv2);
+       
+       function hejfra(e){
+           let target = e.target.id;
+           document.getElementById("3").innerHTML= "Hej fra "+target;
+       }
+    
+        function hejfradiv1(){
+            console.log("Hej fra div1");
+            document.getElementById("3").innerHTML = "Hej fra Div1";
+        }
+         function hejfradiv2(){
+            console.log("Hej fra div2");
+            document.getElementById("3").innerHTML = "Hej fra Div2";
+        }
+        
+        
+        </script>
+</html>

@@ -87,7 +87,7 @@ public class MovieResourceTest {
         given().when().get("/movie").then().statusCode(200);
     }
    
-    
+    @Disabled
     @Test
     public void testDummyMsg() throws Exception {
         given()

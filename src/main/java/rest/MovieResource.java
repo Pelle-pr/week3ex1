@@ -31,22 +31,12 @@ public class MovieResource {
     private static final MovieFacade FACADE =  MovieFacade.getFacadeExample(EMF);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     
-    @Path("demo")
+    
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String demo() {
       
-         EntityManager em = EMF.createEntityManager();
-         
-        try {
-            em.getTransaction().begin();
-            em.persist(new Movie(1986, "Topgun", new String[]{"Tom Cruise", "Val Kilmer","Kelly McGills"}));
-            em.persist(new Movie(2003, "Kill Bill", new String[]{"Uma Thurman", "Daryl Hannah"}));
-            em.persist(new Movie(1991, "Point Break", new String[]{"Patrick Swayze", "Keanu Reeves"}));
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
+        
         return "{\"msg\":\"Hello World\"}";
     }
     @Path("count")
@@ -97,5 +87,24 @@ public class MovieResource {
         
         return GSON.toJson(movie);
     }
+    @Path("addToDB")
+    @GET
+    @Produces (MediaType.APPLICATION_JSON)
+    public String addtoDB(){
+        
+         EntityManager em = EMF.createEntityManager();
+         
+        try {
+            em.getTransaction().begin();
+            em.persist(new Movie(1986, "Topgun", new String[]{"Tom Cruise", "Val Kilmer","Kelly McGills"}));
+            em.persist(new Movie(2003, "Kill Bill", new String[]{"Uma Thurman", "Daryl Hannah"}));
+            em.persist(new Movie(1991, "Point Break", new String[]{"Patrick Swayze", "Keanu Reeves"}));
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return "Added movies";
+    }
+    
     
 }
